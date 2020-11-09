@@ -3,10 +3,15 @@ const fs = require("fs")
 const crypto = require("crypto")
 const data = require("./data")
 
+// Fetching os user details
 var value = os.userInfo()
+
+// calling data function which will return object of name, year and qualification
 var userdata = data("Prograd", 2020, "BE")
+// encrpts the simple string using sha algorithm
 const password = crypto.createHmac('sha256', "secret").update('Prograd').digest('hex');
 
+// all the aboe details are added/saved into message.txt
 fs.appendFileSync("message.txt", "Prograd Details: \n")
 
 fs.appendFileSync("message.txt", `\tUserId ->          ${value.uid},\n`)
