@@ -1,25 +1,22 @@
-const os = require("os")
-const fs = require("fs")
-const crypto = require("crypto")
-const data = require("./data")
+const fs = require('fs');
+const os=require('os')
+var value=require('./data')
+const crypto = require('crypto');
+var data=os.userInfo()
+const secret = data.username;
+const password = crypto.createHmac('sha256', secret).update('Prograd').digest('hex');
 
-// Fetching os user details
-var value = os.userInfo()
-
-// calling data function which will return object of name, year and qualification
-var userdata = data("Prograd", 2020, "BE")
-// encrpts the simple string using sha algorithm
-const password = crypto.createHmac('sha256', "secret").update('Prograd').digest('hex');
-
-// all the aboe details are added/saved into message.txt
-fs.appendFileSync("message.txt", "Prograd Details: \n")
-
-fs.appendFileSync("message.txt", `\tUserId ->          ${value.uid},\n`)
-fs.appendFileSync("message.txt", `\tName ->            ${userdata.name},\n`)
-fs.appendFileSync("message.txt", `\tYear ->            ${userdata.Year},\n`)
-fs.appendFileSync("message.txt", `\tQualification ->   ${userdata.Qualification},\n`)
-fs.appendFileSync("message.txt", `\tUserName ->        ${value.username},\n`)
-fs.appendFileSync("message.txt", `\tPassword ->        ${password},\n`)
-
-
-
+var userdata= value.data("Prograd",2020,"BE")
+fs.appendFile('message.txt',(
+  `ProGrad Details
+   UserId ->        ${data.uid},
+   Name ->          ${userdata.name},
+   Year ->          ${userdata.Year},
+   Qualification -> ${userdata.Qualification},
+   UserName->       ${data.username},
+   Password ->      ${password}
+  `),  
+(err) => {
+    if (err) throw err;
+    console.log('The "data to append" was appended to file!');
+  });
